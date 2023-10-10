@@ -19,6 +19,11 @@ h2 {
   color: bisque;
 }
 
+h3 {
+  text-align: center;
+  color: bisque;
+}
+
 main {
   background-color: rgb(56, 54, 54);
   width: 100vw;
@@ -65,4 +70,27 @@ main {
 
 .after::after {
   content: " : ";
+}
+
+.form-wrapper {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form-wrapper input {
+  border-radius: 5px;
+  border: none;
+  height: 3rem;
+  padding: 0.5rem 1rem;
+}
+
+input[type="submit"] {
+  background-color: wheat;
+  color: rgb(56, 54, 54);
+  font-weight: 700;
+  text-transform: uppercase;
 }

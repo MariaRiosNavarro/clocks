@@ -4,14 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
-    <title>1_2</title>
+    <title>Clocks</title>
   </head>
   <body>
     <main>
-      <h1>Clock</h1>
-      <div data-js="clock-wrapper" class="wrapper"></div>
-      <h2>Clock PM</h2>
-      <div data-js="clock-wrapper2" class="wrapper"></div>
+      <article>
+        <h1>Clock</h1>
+        <div data-js="clock-wrapper" class="wrapper"></div>
+        <h2>Clock PM</h2>
+        <div data-js="clock-wrapper2" class="wrapper"></div>
+      </article>
+      <article class="form-wrapper">
+        <h3>Andere Uhr hinzufügen?</h3>
+        <form data-js="form">
+          <input
+            type="date"
+            id="dateInput"
+            class="dateInput"
+            name="dateInput"
+            data-js="dateInput"
+            required
+          />
+          <input
+            type="time"
+            id="timeInput"
+            class="timeInput"
+            name="timeInput"
+            data-js="timeInput"
+            required
+          />
+          <input type="submit" value="hinzufügen" />
+        </form>
+        <div data-js="customClock"></div>
+      </article>
     </main>
     <footer></footer>
     <script src="./assets/js/main.js"></script>

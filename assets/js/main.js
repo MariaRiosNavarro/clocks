@@ -23,32 +23,90 @@ let wochenTag = [
   "Samstag",
 ];
 
-// Test all get methods
+const wrapperCostum = document.querySelector('[data-js="customClock"]');
+const dateInput = document.querySelector('[data-js="dateInput"]');
+const timeInput = document.querySelector('[data-js="timeInput"]');
+const form = document.querySelector('[data-js="form"]');
 
-// console.log(today); //Tue Oct 10 2023 10:40:55 GMT+0200 (Mitteleuropäische Sommerzeit)
-// console.log("toUTCString()->", today.toUTCString()); //Tue, 10 Oct 2023 08:41:03 GMT
+let costumDate;
+let costumClock;
 
-// console.log("toLocaleDateString()->", today.toLocaleDateString()); //10.10.2023
-// console.log(
-//   `toLocaleDateString(("default", { weekday: "long" })->`,
-//   today.toLocaleDateString("default", { weekday: "long" })
-// ); //Dienstag
-// console.log("toLocaleString()->", today.toLocaleString()); //10.10.2023, 10:41:17
-// console.log("getTime()->", today.getTime()); //1696927286058
-// console.log("getFullYear()->", today.getFullYear()); //2023
-// console.log("getMonth()->", today.getMonth()); //9  !INDEX ->0 January
-// console.log("getDate()->", today.getDate()); //10
-// console.log("getDay()->", today.getDay()); //2  !INDEX -> 0 Sunday
-// console.log("getSeconds()->", today.getSeconds()); //33
-// console.log("getMilliseconds()->", today.getMilliseconds()); //549
+const updateCustomClock = () => {
+  let outYear = costumDate.getFullYear();
+  let outMonthIndex = costumDate.getMonth();
+  let outDay = costumDate.getDate();
+  let outHour = costumDate.getHours();
+  let outMinute = costumDate.getMinutes();
+  let outSeconds = costumDate.getSeconds();
+  let outWeekDay = costumDate.toLocaleDateString("default", {
+    weekday: "long",
+  });
+  let outMonthName = monate[outMonthIndex];
 
-// Aufgabe mit extra (aktualisieren/echte Uhr) // und anderen Zeit
+  wrapperCostum.innerHTML = `
+    <div class="flex-row">
+    <div class="flex-column">
+      <span class="spanStyle">${outWeekDay}</span>
+      <span class="spanStyle">Wochentag</span>
+    </div>
+    <div class="flex-column">
+      <span class="spanStyle">${outDay}</span>
+      <span class="spanStyle">Tag</span>
+    </div>
+    <div class="flex-column">
+      <span class="spanStyle">${outMonthName}</span>
+      <span class="spanStyle">Monat</span>
+    </div>
+    <div class="flex-column">
+      <span class="spanStyle">${outYear}</span>
+      <span class="spanStyle">Jahr</span>
+    </div>
+    </div>
+    <div class="flex-row">
+    <div class="flex-column">
+      <span class="spanStyle">${outHour < 10 ? `0${outHour}` : outHour}</span>
+      <span class="spanStyle">Stunden</span>
+    </div>
+    <div class="flex-column">
+      <span class="spanStyle">${
+        outMinute < 10 ? `0${outMinute}` : outMinute
+      }</span>
+      <span class="spanStyle">Minuten</span>
+    </div>
+    <div class="flex-column">
+      <span class="spanStyle">${
+        outSeconds < 10 ? `0${outSeconds}` : outSeconds
+      }</span>
+      <span class="spanStyle">Sekunden</span>
+    </div>
+    </div>
 
-// --FallB: Wenn ich eine andere Uhr benutzen wurde,  let today = new Date(1977, 0, 0, 0);
+    `;
+
+  costumDate.setSeconds(costumDate.getSeconds() + 1); // we add after 1 update 1 sec
+};
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  let valueDate = dateInput.value;
+  let valueDateArray = valueDate.split("-");
+  let valueTime = timeInput.value;
+  let valueTimeArray = valueTime.split(":");
+
+  let year = Number(valueDateArray[0]);
+  let month = Number(valueDateArray[1]) - 1;
+  let day = Number(valueDateArray[2]);
+  let hour = Number(valueTimeArray[0]);
+  let minute = Number(valueTimeArray[1]);
+  costumDate = new Date(year, month, day, hour, minute);
+  updateCustomClock();
+  setInterval(updateCustomClock, 1000); //we update the customClock allways after 1 sec
+});
 
 let clock = () => {
   // --FallB: Sollte hier dass auch:  today = new Date( new Date(today).setSeconds(new Date(today).getSeconds() + 1)
   let today = new Date();
+
   const wrapper = document.querySelector('[data-js="clock-wrapper"]');
   const wrapperPM = document.querySelector('[data-js="clock-wrapper2"]');
 
@@ -61,7 +119,7 @@ let clock = () => {
   let weekDay = today.toLocaleDateString("default", { weekday: "long" });
   let monthName = monate[monthIndex];
 
-  // transformieren von 24 hours  into 12 hour for clock2 in wrapperPm
+  // from 24 hours  to 12 hour for PM Clock
   let meridiem = "AM";
   let pmHour = 0;
 
@@ -148,6 +206,6 @@ let clock = () => {
 `;
 };
 
-// Set interval jede secunde
+// Set interval after 1 sec
 
 setInterval(clock, 1000);
